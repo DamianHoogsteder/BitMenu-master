@@ -24,23 +24,40 @@ namespace BitMenu
             lbl_AdminName.Text = currentUser.getName;
         }
 
-        private void btn_AccountPage_open_Click(object sender, EventArgs e)
+        private void lv_YourTeam_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Hide the current page
-            this.Hide();
+            MessageBox.Show("Test");
+        }
 
-            DialogResult dr = new DialogResult();
-            //Create a new object of the Account form
-            Account f2 = new Account();
-            dr = f2.ShowDialog();
+        private void btn_AccountPage__Click(object sender, EventArgs e)
+        {
+            form_Login loginForm = new form_Login();
 
-            //Check if data has been filled in
-            if (dr == DialogResult.OK)
+            loginForm.createAccountSendData();
+        }
+
+        private void btn_SchedulingOpen_Click(object sender, EventArgs e)
+        {
+            pnl_AdminControl.BringToFront();
+            pnl_AdminControl.Controls.Clear();
+            Scheduling scheduling = new Scheduling();
+            scheduling.TopLevel = false;
+            pnl_AdminControl.Controls.Add(scheduling);
+            scheduling.Show();
+        }
+
+        private void btn_YourTeam_Click_1(object sender, EventArgs e)
+        {
+            lv_YourTeam.Visible = true;
+
+            foreach (User user in form_Login.getUsers)
             {
-                //Add a new user object with the corrosponding data
-               form_Login.getUsers.Add(new User(f2.getNewUserName, f2.getNewPassword));
+                ListViewItem itemDay = new ListViewItem(user.getUserName);
+
+                itemDay.SubItems.Add(user.getUserName);
+                lv_YourTeam.Items.Add(itemDay);
             }
-            this.Show();
         }
     }
+
 }
